@@ -1,6 +1,7 @@
 <template>
   <!-- bili信息卡片 -->
   <pps-card>
+    <!-- 输入框个 -->
     <pps-input
       type="number"
       placeholder="输入B站uid"
@@ -10,16 +11,22 @@
       <pps-button type="warn" @click="handle">重置</pps-button>
       <pps-button type="primary" @click="biliSendAjax">查找</pps-button>
     </pps-input>
+
+    <!-- 头像 -->
     <pps-avatar
       :src="biliPart.content.avatar"
       defaultSrc="https://static.hdslb.com/images/member/noface.gif"
     ></pps-avatar>
+
+    <!-- 信息项 -->
     <pps-table-item
       v-for="(item, index) in navList"
       :key="index"
       :title="item"
       :content="biliPart.infoList[index]"
     ></pps-table-item>
+
+    <!-- 切换到用户名查找 -->
     <router-link
       :to="{
         name: 'biliUserCard',
@@ -28,6 +35,8 @@
         >不知道uid？搜索昵称
       </el-link>
     </router-link>
+    <!-- 加载中 -->
+    <my-loading :loading="isShowMask"></my-loading>
   </pps-card>
 </template>
 
@@ -36,11 +45,14 @@ import { getBiliInfoAPI } from "@/api";
 import { mapGetters } from "vuex";
 import { biliFilter } from "@/private";
 import { levelFilter } from "@/plugins/bili";
+import myLoading from '@/components/myLoading.vue';
 
 export default {
+  components: { myLoading },
   name: "my-bili",
   data() {
     return {
+      isShowMask: false,
       keyword: "",
       navList: [
         { title: "用户名", haveToast: false },
@@ -58,21 +70,24 @@ export default {
       if (biliFilter(this.keyword)) return;
       if (this.keyword === "") return this.$message.warning("输入不能为空！");
       try {
-        const {
+        this.isShowMask = true;
+        var {
           data: { name, sex, fans, sign, level, isFollow, avatar },
         } = await getBiliInfoAPI(this.keyword);
-        const nlevel = levelFilter(level);
-        const nisFollow = isFollow ? "已关注" : "未关注";
-        const nsex = this.sexFilter(sex)
-        const nfans = this.fansFliter(fans)
-        const info = {
-          infoList: [name, nsex, nlevel, nfans, nisFollow, '接口懒得写了', sign],
-          content: { avatar },
-        };
-        this.$store.commit("updateBili", info);
+        this.isShowMask = false;
       } catch (error) {
-        this.$message.warning(error.message);
+        this.isShowMask = false;
+        return this.$message.error("请求失败！请尝试VPN");
       }
+      const nlevel = levelFilter(level);
+      const nisFollow = isFollow ? "已关注" : "未关注";
+      const nsex = this.sexFilter(sex);
+      const nfans = this.fansFliter(fans);
+      const info = {
+        infoList: [name, nsex, nlevel, nfans, nisFollow, "接口懒得写了", sign],
+        content: { avatar },
+      };
+      this.$store.commit("updateBili", info);
     },
     handle() {
       this.$store.commit("updateBili", "");
@@ -96,7 +111,7 @@ export default {
       }
     },
     fansFliter(num) {
-      return (num.toString().length > 4) ? `${(num / 10000).toFixed(1)}万` : num;
+      return num.toString().length > 4 ? `${(num / 10000).toFixed(1)}万` : num;
     },
   },
   computed: {
@@ -112,10 +127,12 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="less" scoped>
 .pps-card {
+  position: relative;
   width: 300px;
   height: fit-content;
   margin: 0 auto;
 }
+
 </style>

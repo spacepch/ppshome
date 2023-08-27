@@ -1,10 +1,8 @@
 import axios from 'axios'
 // import store from '@/store'
-
+const baseURL = process.env.NODE_ENV === 'production' ? 'https://pps-api.vercel.app' : 'http://192.168.10.7:5000'
 const myAxios = axios.create({
-    baseURL: 'https://pps-api.vercel.app',
-    // baseURL_f:'http://192.168.10.3:5000'
-    timeout:3000
+    baseURL
 })
 
 // 请求拦截器
@@ -15,22 +13,22 @@ const myAxios = axios.create({
 //     return config
 //   })
 
-myAxios.interceptors.response.use(
-    function (response) {
-        return response
-    },
-    (error) => {
-        const baseURL = 'http://192.168.10.3:5000'
-        const url = error.config.url
-        const params = error.config.params
-        const delay = new Promise(function (resolve) {
-            resolve();
-        });
-        return delay.then(function () {
-            return myAxios({ baseURL: baseURL + url, params });
-        });
+// myAxios.interceptors.response.use(
+//     (response) => {
+//         return response
+//     },
+//     (error) => {
+//         const baseURL = 'http://192.168.10.7:5000'
+//         const url = error.config.url
+//         const params = error.config.params
+//         const delay = new Promise(function (resolve) {
+//             resolve();
+//         });
+//         return delay.then(() => {
+//             return myAxios({ baseURL: baseURL + url, params });
+//         });
 
-    })
+//     })
 
 
 export default myAxios

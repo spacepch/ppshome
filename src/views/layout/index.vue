@@ -4,11 +4,7 @@
     <nav>
       <div>
         <!-- 遮罩层 -->
-        <div
-          class="menuMask"
-          @click="closeMenu"
-          :class="{ active: isAsideShow }"
-        ></div>
+        <div class="menuMask" @click="closeMenu" :class="{ active: isAsideShow }"></div>
         <!-- 菜单按钮-移动端 -->
         <div class="menu" @click="handleMenuFn">
           <svg viewBox="0 0 1024 1024" width="30" height="30">
@@ -34,11 +30,7 @@
             mode="horizontal"
             router
           >
-            <el-menu-item
-              :index="obj.path"
-              v-for="(obj, index) in navList"
-              :key="index"
-            >
+            <el-menu-item :index="obj.path" v-for="(obj, index) in navList" :key="index">
               <span slot="title">{{ obj.title }}</span>
             </el-menu-item>
           </el-menu>
@@ -66,11 +58,7 @@
                 active-text-color="#f79f1f"
                 router
               >
-                <el-menu-item
-                  :index="obj.path"
-                  v-for="(obj, index) in navList"
-                  :key="index"
-                >
+                <el-menu-item :index="obj.path" v-for="(obj, index) in navList" :key="index">
                   <i class="el-icon-menu"></i>
                   <span slot="title">{{ obj.title }}</span>
                 </el-menu-item>
@@ -79,7 +67,9 @@
           </div>
         </transition>
         <!-- 登录 -->
-        <div class="right"></div>
+        <div class="right">
+          <pps-button v-if="acticlePart.addBtnVisible" type="confirm" @click="publishFn">发布</pps-button>
+        </div>
       </div>
     </nav>
 
@@ -128,9 +118,9 @@
           <div class="projects">
             <div v-for="(obj, index) in projects" :key="index">
               <i :class="obj.icon"></i>
-              <el-link :href="obj.link" target="blank" :underline="false">{{
-                obj.content
-              }}</el-link>
+              <el-link :href="obj.link" target="blank" :underline="false">
+                {{ obj.content }}
+              </el-link>
             </div>
           </div>
           <pps-button
@@ -138,31 +128,37 @@
             style="
               border-radius: 5px;
               width: 100%;
-              margin: 0 auto;
+              margin: 20px auto 0;
               font-weight: 200;
               color: #fff;
               height: 40px;
               background-color: #409eff;
             "
-            >关于本站更多信息</pps-button
           >
+            关于本站更多信息
+          </pps-button>
         </div>
       </pps-card>
       <!-- 主体内容 -->
-      <pps-card class="center">
+      <div class="center">
+        <!-- 公式 -->
+        <van-notice-bar
+          left-icon="volume-o"
+          scrollable
+          text="本站接口因部署在vercel，若请求失败，请尝试vpn！本站均由作者编写！本站功能未写完，就此不打算继续了，后期可能会更新！"
+        />
+        <!-- 面包屑 -->
         <div class="data">
           <el-breadcrumb separator-class="el-icon-arrow-right">
-            <el-breadcrumb-item
-              v-for="breadcrumbItem in breadcrumbList"
-              :key="breadcrumbItem.path"
-              :to="{ path: breadcrumbItem.path }"
-            >
-              <a> {{ breadcrumbItem.meta.title }} </a>
+            <el-breadcrumb-item v-for="breadcrumbItem in breadcrumbList" :key="breadcrumbItem.path">
+              <router-link :to="{ path: breadcrumbItem.path }">
+                {{ breadcrumbItem.meta.title }}
+              </router-link>
             </el-breadcrumb-item>
           </el-breadcrumb>
         </div>
         <router-view></router-view>
-      </pps-card>
+      </div>
       <!-- 右边栏 -->
       <pps-card class="right">
         <div>技术栈：</div>
@@ -170,16 +166,9 @@
         <el-collapse>
           <el-collapse-item title="vue2" name="1">
             <div>Vue是一套用于构建用户界面的前端框架。</div>
-            <div>
-              基于标准 HTML、CSS 和 JavaScript 构建，提供容易上手的 API
-              和一流的文档。
-            </div>
-            <div>
-              经过编译器优化、完全响应式的渲染系统，几乎不需要手动优化。
-            </div>
-            <div>
-              丰富的、可渐进式集成的生态系统，可以根据应用规模在库和框架间切换自如。
-            </div>
+            <div>基于标准 HTML、CSS 和 JavaScript 构建，提供容易上手的 API 和一流的文档。</div>
+            <div>经过编译器优化、完全响应式的渲染系统，几乎不需要手动优化。</div>
+            <div>丰富的、可渐进式集成的生态系统，可以根据应用规模在库和框架间切换自如。</div>
           </el-collapse-item>
           <el-collapse-item title="vue-cli" name="2">
             <div>Vue CLI 是一个基于 Vue.js 进行快速开发的完整系统</div>
@@ -190,25 +179,17 @@
             </div>
           </el-collapse-item>
           <el-collapse-item title="element-ui" name="3">
-            <div>
-              Element，一套为开发者、设计师和产品经理准备的基于 Vue 2.0
-              的桌面端组件库
-            </div>
+            <div>Element，一套为开发者、设计师和产品经理准备的基于 Vue 2.0 的桌面端组件库</div>
           </el-collapse-item>
           <el-collapse-item title="pps-ui" name="4">
-            <div>
-              pps-ui，是作者基于 Vue 2.0，参照elementUI底层源码为自己设计的
-              的桌面端组件库
-            </div>
+            <div>pps-ui，是作者基于 Vue 2.0，参照elementUI底层源码为自己设计的 的桌面端组件库</div>
           </el-collapse-item>
           <el-collapse-item title="vuex" name="5">
             <div>
               Vuex 是一个专为 Vue.js 应用程序开发的状态管理模式 +
               库。它采用集中式存储管理应用的所有组件的状态，并以相应的规则保证状态以一种可预测的方式发生变化。
             </div>
-            <div>
-              结果可控：用户可以自由的进行操作，包括撤销、回退和终止当前操作等。
-            </div>
+            <div>结果可控：用户可以自由的进行操作，包括撤销、回退和终止当前操作等。</div>
           </el-collapse-item>
         </el-collapse>
         <br />
@@ -243,9 +224,7 @@
       <div>
         <p>版权申明</p>
         <p>看什么看还没上域名呢</p>
-        <p>
-          本站内容均为原创，未套用任何博客模板，组件库均为自己编写，用到少数elementUI
-        </p>
+        <p>本站内容均为原创，未套用任何博客模板，组件库均为自己编写，用到少数elementUI</p>
         <p>CopyRight@ 2023 Painchornds</p>
       </div>
     </footer>
@@ -253,18 +232,26 @@
 </template>
 
 <script>
+import { NoticeBar } from "vant";
+import { mapGetters } from "vuex";
+
 export default {
   name: "my-layout",
+  components: {
+    "van-notice-bar": NoticeBar,
+  },
   data() {
     return {
+      isAsideShow: false,
       navList: [
         { title: "首页", path: "/home" },
-        { title: "qq接口", path: "/qqCard" },
-        { title: "bili接口", path: "/biliCard" },
-        { title: "biliUser接口", path: "/biliUserCard" },
-        { title: "git接口", path: "/githubCard" },
+        { title: "接口工具", path: "/apiCards" },
+        // { title: "qq接口", path: "/qqCard" },
+        // { title: "bili接口", path: "/biliCard" },
+        // { title: "biliUser接口", path: "/biliUserCard" },
+        // { title: "git接口", path: "/githubCard" },
+        { title: "备忘录", path: "/todoList" },
       ],
-      isAsideShow: false,
       projects: [
         {
           content: "主页旧址",
@@ -276,8 +263,12 @@ export default {
           link: "https://github.com/spacepch",
           icon: "el-icon-link",
         },
-        { content: "", link: "" },
-        { content: "", link: "" },
+        {
+          content: "ppsms后台管理系统",
+          link: "https://spacepch.gitee.io/ppshome/ppsms",
+          icon: "el-icon-document",
+        },
+        { content: "TodoList", link: "", icon: "el-icon-edit-outline" },
       ],
     };
   },
@@ -292,11 +283,19 @@ export default {
       this.closeMenu();
       this.$router.replace(path);
     },
+    publishFn(){
+      this.$store.state.acticlePart.addActDialogVisible = true
+    }
   },
   computed: {
     breadcrumbList() {
-      return this.$route.matched;
+      const routePath = this.$route.matched;
+      return routePath;
     },
+    ...mapGetters(['acticlePart'])
+  },
+  mounted() {
+    // console.log(this.$router);
   },
 };
 </script>
@@ -441,11 +440,16 @@ nav {
 
   & .right {
     width: 120px;
-    height: 100%;
+    text-align: center;
     transition: all 0.4s ease;
 
+    button{
+      width: 80%;
+      font-size: 14px;
+    }
+
     @media screen and (max-width: 995px) {
-      width: 40px;
+      width: 100px;
     }
   }
 }
@@ -471,14 +475,15 @@ header {
     text-align: center;
     overflow: hidden;
     transition: all 0.4s ease;
-    &:hover {
-      transform: scale(1.1);
-    }
 
     & img {
       position: relative;
       height: 100%;
       left: 100px;
+      transition: all 0.4s ease;
+      &:hover {
+        transform: scale(1.1);
+      }
     }
 
     @media screen and (max-width: 996px) {
@@ -512,16 +517,14 @@ header {
         height: 160px;
         box-sizing: border-box;
         border-radius: 15px;
-        border: 8px solid #ffffff54;
+        border: 8px solid #ffffff60;
         transition: all 0.3s ease;
         cursor: pointer;
         z-index: 1;
 
         &:hover {
-          // transform: scale(1.1);
-          border-color: rgba(64, 160, 255, 0.577);
-          border-width: 5px;
           border-radius: 50%;
+          border-color: #ffc31260;
         }
 
         @media screen and (max-width: 730px) {
@@ -632,12 +635,16 @@ header {
   & .data {
     display: flex;
     align-items: center;
-    position: sticky;
-    top: 55px;
+    // position: sticky;
+    // top: 55px;
     width: 100%;
-    height: 30px;
-    margin-bottom: 5px;
-    background-color: #fff;
+    min-height: 40px;
+    padding: 0 0 0 10px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-sizing: border-box;
     z-index: 5;
   }
 }
@@ -646,6 +653,7 @@ footer {
   align-items: center;
   position: relative;
   height: 200px;
+  width: 100%;
   margin: 10px auto 0;
   background-color: #ffc312;
   box-shadow: inset 0 0 20px 1px #f79f1f;
@@ -681,7 +689,6 @@ footer {
     display: none;
   }
   .pps-main {
-    min-height: calc(30vh);
     .left {
       display: none;
     }
@@ -691,6 +698,15 @@ footer {
     }
     .right {
       display: none;
+    }
+  }
+  section {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    main {
+      flex-grow: 1;
+      width: 100%;
     }
   }
 }

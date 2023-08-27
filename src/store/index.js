@@ -19,11 +19,16 @@ export default new Vuex.Store({
       content: {},
       infoList: [],
     },
+    acticlePart: {
+      addActDialogVisible: false,
+      addBtnVisible: false
+    }
   },
   getters: {
     qqPart: (state) => state.qqPart,
     biliPart: (state) => state.biliPart,
     githubPart: (state) => state.githubPart,
+    acticlePart: (state) => state.acticlePart
   },
   mutations: {
     updateQq(state, val = {}) {

@@ -10,16 +10,15 @@ name:'ppsCard'
 }
 </script>
 
-<style scoped>
+<style>
 .pps-card {
+  position: relative;
   width: auto;
   height: fit-content;
   padding: 5px;
-  border: 1px solid #e3e3e7;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.144);
-  border-radius: 10px;
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0.144);
+  border-radius: 8px;
   background: #fff;
   padding-bottom: 10px;
-  margin: 5px;
 }
 </style>

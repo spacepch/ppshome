@@ -56,6 +56,7 @@ export default {
   },
   mounted() {
     this.isFirstEnterFn();
+    // console.log(this);
   },
 };
 </script>

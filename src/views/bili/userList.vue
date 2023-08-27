@@ -23,14 +23,10 @@
     <div class="conditions-list">
       <el-dropdown @command="sortFn" trigger="click">
         <pps-button type="confirm"
-          >更多菜单<i class="el-icon-arrow-down el-icon--right"></i
-        ></pps-button>
+          >更多菜单<i class="el-icon-arrow-down el-icon--right"></i>
+        </pps-button>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item
-            v-for="(item, index) in conditions"
-            :key="index"
-            :command="item"
-          >
+          <el-dropdown-item v-for="(item, index) in conditions" :key="index" :command="item">
             {{ item.text }}
           </el-dropdown-item>
         </el-dropdown-menu>
@@ -46,15 +42,10 @@
     ></el-statistic>
 
     <!-- 数据表格 -->
-    <el-table
-      :data="userList"
-      style="width: 100%"
-      class="table-fixed-header"
-      height="400"
-    >
+    <el-table :data="userList" style="width: 100%" class="table-fixed-header" height="400">
       <el-table-column label="头像">
         <template slot-scope="obj">
-          <pps-avatar :size="40" :src="obj.row.upic"></pps-avatar>
+          <pps-avatar :size="40" :src="obj.row.upic" :href="userUrl(obj.row.mid)"></pps-avatar>
         </template>
       </el-table-column>
       <el-table-column prop="uname" label="用户名"> </el-table-column>
@@ -66,14 +57,12 @@
       </el-table-column>
       <el-table-column label="粉丝">
         <template slot-scope="obj">
-          {{fansFliter(obj.row.fans)}}
+          {{ fansFliter(obj.row.fans) }}
         </template>
       </el-table-column>
       <el-table-column label="详细信息">
         <template slot-scope="obj">
-          <pps-button type="confirm" @click="jumpFn(obj.row.mid)"
-            >跳转</pps-button
-          >
+          <pps-button type="confirm" @click="jumpFn(obj.row.mid)"> 跳转 </pps-button>
         </template>
       </el-table-column>
     </el-table>
@@ -84,21 +73,23 @@
       <pps-button>{{ this.currentPage }}</pps-button>
       <pps-button type="confirm" @click="nextPageFn">下一页</pps-button>
       <router-link
-      :to="{
-        name: 'biliCard',
-      }"
-      ><el-link type="primary" :underline="false" style="margin-left: 25px"
-        >用uid搜索?
-      </el-link>
-    </router-link>
+        :to="{
+          name: 'biliCard',
+        }"
+        ><el-link type="primary" :underline="false" style="margin-left: 25px">用uid搜索? </el-link>
+      </router-link>
     </div>
+    <!-- 加载中 -->
+    <my-loading :loading="isloading"></my-loading>
   </pps-card>
 </template>
 
 <script>
 import { getBiliUserListAPI } from "@/api";
+import myLoading from "@/components/myLoading.vue";
 
 export default {
+  components: { myLoading },
   name: "my-search-list",
   methods: {
     jumpFn(obj) {
@@ -106,22 +97,28 @@ export default {
     },
     async sendAjax() {
       if (!this.searchParams.page) this.searchParams.page = 1;
-      const { data: res } = await getBiliUserListAPI(
-        this.searchParams.keyword,
-        this.searchParams.page,
-        this.searchParams.page_size,
-        this.searchParams.order,
-        this.searchParams.order_sort,
-        this.searchParams.user_type
-      );
-      this.searchParams.page_num = res.data.numPages;
-      this.searchParams.total = res.data.numResults;
-      this.userList = res.data.result;
+      try {
+        this.isloading = true;
+        var { data: res } = await getBiliUserListAPI(
+          this.searchParams.keyword,
+          this.searchParams.page,
+          this.searchParams.page_size,
+          this.searchParams.order,
+          this.searchParams.order_sort,
+          this.searchParams.user_type
+        );
+      } catch (error) {
+        this.isloading = false;
+        this.searchParams.page = 0;
+        return this.$message.error("请求失败！请尝试VPN");
+      }
+      this.isloading = false;
+      this.searchParams.page_num = res.numPages;
+      this.searchParams.total = res.numResults;
+      this.userList = res.result;
     },
     searchFn() {
-      this.searchParams.page = 1;
-      if (this.searchParams.keyword === "")
-        return this.$message.warning("输入不能为空！");
+      if (this.searchParams.keyword === "") return this.$message.warning("输入不能为空！");
       this.sendAjax();
     },
     nextPageFn() {
@@ -131,8 +128,7 @@ export default {
       this.sendAjax();
     },
     prePageFn() {
-      if (this.searchParams.page <= 1)
-        return this.$message.warning("已经是第一页了！");
+      if (this.searchParams.page <= 1) return this.$message.warning("已经是第一页了！");
       this.searchParams.page--;
       this.sendAjax();
     },
@@ -162,7 +158,10 @@ export default {
       this.sendAjax();
     },
     fansFliter(num) {
-      return (num.toString().length > 4) ? `${(num / 10000).toFixed(1)}万` : num;
+      return num.toString().length > 4 ? `${(num / 10000).toFixed(1)}万` : num;
+    },
+    userUrl(uid) {
+      return uid ? `https://space.bilibili.com/${uid}` : null;
     },
   },
   data() {
@@ -201,6 +200,7 @@ export default {
       ],
       active_user: 0,
       numResults: 0,
+      isloading: false,
     };
   },
   computed: {

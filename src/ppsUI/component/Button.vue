@@ -72,9 +72,6 @@ export default {
 .pps-button-primary:hover {
   background: #ffc312;
 }
-.pps-button-confirm:hover {
-  background-color: rgb(145, 220, 250);
-}
 .pps-button-warn:hover {
   background-color: rgb(251, 88, 88);
 }
@@ -109,11 +106,14 @@ export default {
 /*============ confirm ===============*/
 .pps-button-confirm {
   color: #fff;
-  background-color: #409eff;
+  background-color: #00aeed;
   box-shadow: inset 0px 0px 1px 1px rgb(50, 188, 242)
 }
 .pps-button-confirm:active {
   box-shadow: inset 3px 3px 3px 2px rgb(50, 176, 225);
+}
+.pps-button-confirm:hover {
+  background-color: #40c5f1;
 }
 /*================ end ================*/
 

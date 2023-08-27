@@ -57,7 +57,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .user-avatar {
   margin: auto;
   width: fit-content;

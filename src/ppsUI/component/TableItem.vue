@@ -60,7 +60,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .isChecked {
   filter: brightness(95%);
 }

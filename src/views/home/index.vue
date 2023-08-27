@@ -2,6 +2,7 @@
 <div>
   <h3>欢迎参观<em>ppshome</em>主页！</h3>
   <h4>本站接口部署在vercel serverless，建议使用vpn！</h4>
+  <h4 class="tip">↖左上角打开菜单</h4>
 </div>
     
 </template>
@@ -20,5 +21,8 @@ h3 {
 h4{
   text-align: center;
   margin: 0 auto;
+}
+.tip{
+  color: #409eff;
 }
 </style>

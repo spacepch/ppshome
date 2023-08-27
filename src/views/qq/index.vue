@@ -26,6 +26,8 @@
       :content="qqPart.infoList[index]"
     >
     </pps-table-item>
+    <!-- 加载中 -->
+    <my-loading :loading="isloading"></my-loading>
   </pps-card>
 </template>
 
@@ -33,10 +35,13 @@
 import { qqFilter } from "@/private";
 import { getQqinfoAPI } from "@/api";
 import { mapGetters } from "vuex";
+import myLoading from '@/components/myLoading.vue';
 export default {
+  components: { myLoading },
   name: "my-qq",
   data() {
     return {
+      isloading:false,
       keyword: "",
       navList: [
         { title: "QQ账号", haveToast: false },
@@ -49,9 +54,9 @@ export default {
   methods: {
     async qqSendAjax() {
       if (qqFilter(this.keyword)) return;
-      if (this.keyword === "" || this.keyword === 0)
-        return this.$message.warning("输入不能为空！");
+      if (this.keyword === "" || this.keyword === 0) return this.$message.warning("输入不能为空！");
       try {
+        this.isloading = true
         const {
           data: { avatar, name, phone, phonediqu },
         } = await getQqinfoAPI(this.keyword);
@@ -61,8 +66,10 @@ export default {
         };
         this.$store.commit("updateQq", info);
       } catch (error) {
-        this.$message.warning(error.message);
+        this.isloading = false
+        this.$message.warning("请求失败！请尝试VPN");
       }
+      this.isloading = false
     },
     handle() {
       this.$store.commit("updateQq", "");
