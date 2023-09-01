@@ -7,7 +7,7 @@ import request from "@/utils/request";
  */
 export const getBiliInfoAPI = (keyword) => {
   return request({
-    url: "/api/bili",
+    url: "/bili",
     params: { keyword },
   });
 };
@@ -19,7 +19,7 @@ export const getBiliInfoAPI = (keyword) => {
  */
 export const getQqinfoAPI = (keyword) => {
   return request({
-    url: '/api/qq',
+    url: '/qq',
     params: { keyword }
   });
 };
@@ -31,7 +31,7 @@ export const getQqinfoAPI = (keyword) => {
  */
 export const getGithubInfoAPI = (keyword) => {
   return request({
-    url: `/api/github`,
+    url: `/github`,
     params: { keyword }
   })
 }
@@ -44,7 +44,7 @@ export const getGithubInfoAPI = (keyword) => {
  */
 export const getBiliUserListAPI = (keyword, page, page_size, order, order_sort, user_type) => {
   return request({
-    url: '/api/biliList',
+    url: '/biliList',
     params: {
       keyword, page, page_size, order, order_sort, user_type
     }

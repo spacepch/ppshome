@@ -1,6 +1,6 @@
 import axios from 'axios'
 // import store from '@/store'
-const baseURL = process.env.NODE_ENV === 'production' ? 'https://pps-api.vercel.app' : 'http://192.168.10.7:5000'
+const baseURL = 'https://api.painchornds.cn' //process.env.NODE_ENV === 'production' ? 'https://api.painchornds.cn' : 'http://192.168.10.7:5000'
 const myAxios = axios.create({
     baseURL
 })

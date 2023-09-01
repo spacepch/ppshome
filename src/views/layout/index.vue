@@ -64,11 +64,28 @@
                 </el-menu-item>
               </el-menu>
             </pps-card>
+            <pps-card>
+              <div class="name">
+                <span>Painchornds</span>
+                <i class="el-icon-info" style="color: #409eff"></i>
+                <p>2606249268@qq.com</p>
+              </div>
+              <div class="projects">
+                <div v-for="(obj, index) in projects" :key="index">
+                  <i :class="obj.icon"></i>
+                  <el-link :href="obj.link" target="blank" :underline="false">
+                    {{ obj.content }}
+                  </el-link>
+                </div>
+              </div>
+            </pps-card>
           </div>
         </transition>
         <!-- 登录 -->
         <div class="right">
-          <pps-button v-if="acticlePart.addBtnVisible" type="confirm" @click="publishFn">发布</pps-button>
+          <pps-button v-if="acticlePart.addBtnVisible" type="confirm" @click="publishFn">
+            发布
+          </pps-button>
         </div>
       </div>
     </nav>
@@ -77,6 +94,9 @@
     <header class="pps-header">
       <div class="banner">
         <img src="@/assets/img/banner-m.jpg" alt="" />
+        <video autoplay loop muted>
+          <source src="@/assets/img/banner-e.mp4" type="video/webm" />
+        </video>
       </div>
       <div class="head-title">
         <div>
@@ -85,20 +105,16 @@
           </div>
           <div class="right">
             <div class="title">
-              <div>接口数量</div>
-              <span>123</span>
+              <div>创作者</div>
+              <span>1</span>
             </div>
             <div class="title">
               <div>接口数量</div>
-              <span>123</span>
+              <span>4</span>
             </div>
             <div class="title">
-              <div>接口数量</div>
-              <span>123</span>
-            </div>
-            <div class="title">
-              <div>接口数量</div>
-              <span>123</span>
+              <div>工具</div>
+              <span>1</span>
             </div>
           </div>
         </div>
@@ -145,7 +161,7 @@
         <van-notice-bar
           left-icon="volume-o"
           scrollable
-          text="本站接口因部署在vercel，若请求失败，请尝试vpn！本站均由作者编写！本站功能未写完，就此不打算继续了，后期可能会更新！"
+          text="好消息访问接口终于不用vpn拉！本站均由作者创作！本站功能未写完，就此不打算继续了，后期可能会更新！"
         />
         <!-- 面包屑 -->
         <div class="data">
@@ -223,9 +239,9 @@
     <footer class="pps-footer">
       <div>
         <p>版权申明</p>
-        <p>看什么看还没上域名呢</p>
-        <p>本站内容均为原创，未套用任何博客模板，组件库均为自己编写，用到少数elementUI</p>
-        <p>CopyRight@ 2023 Painchornds</p>
+        <p>本站内容均为原创，未套用任何博客模板，组件库均为自己编写</p>
+        <p>转载请注明出处.本站部分资源收集于网络,只做学习和交流使用,版权归原作者所有.</p>
+        <p>Copyright © 2022 ppshome[blog.painchornds.cn] All Rights Reserved Painchornds</p>
       </div>
     </footer>
   </section>
@@ -283,16 +299,16 @@ export default {
       this.closeMenu();
       this.$router.replace(path);
     },
-    publishFn(){
-      this.$store.state.acticlePart.addActDialogVisible = true
-    }
+    publishFn() {
+      this.$store.state.acticlePart.addActDialogVisible = true;
+    },
   },
   computed: {
     breadcrumbList() {
       const routePath = this.$route.matched;
       return routePath;
     },
-    ...mapGetters(['acticlePart'])
+    ...mapGetters(["acticlePart"]),
   },
   mounted() {
     // console.log(this.$router);
@@ -394,10 +410,16 @@ nav {
     width: 260px;
     background-color: #ffc312;
     box-shadow: inset 0 0 20px 1px #f79f1f;
+    overflow: auto;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
 
     & .pps-card {
       position: relative;
       top: -20px;
+      height: fit-content;
       margin: 10px;
       background-color: #ffffffc5;
     }
@@ -443,7 +465,7 @@ nav {
     text-align: center;
     transition: all 0.4s ease;
 
-    button{
+    button {
       width: 80%;
       font-size: 14px;
     }
@@ -468,32 +490,49 @@ header {
   width: 100%;
 
   & .banner {
+    position: relative;
     display: flex;
     justify-content: center;
     width: 100%;
     height: 280px;
     text-align: center;
     overflow: hidden;
-    transition: all 0.4s ease;
 
+    &:hover img {
+      opacity: 0;
+      transform: translateX(-230px);
+    }
+    &:hover video {
+      transform: translateX(-200px);
+    }
     & img {
-      position: relative;
+      position: absolute;
       height: 100%;
-      left: 100px;
-      transition: all 0.4s ease;
-      &:hover {
-        transform: scale(1.1);
+      transform: translateX(230px);
+      z-index: 1;
+      transition: all 0.6s ease;
+    }
+    & video {
+      position: absolute;
+      height: 100%;
+      transition: all 0.6s ease;
+    }
+    @media screen and (max-width: 730px) {
+      &:hover video {
+        transform: translateX(-350px);
+      }
+      & img {
+        transform: translateX(0);
+      }
+      & video {
+        transition: all 0.3s ease;
       }
     }
-
     @media screen and (max-width: 996px) {
       height: 200px;
     }
     @media screen and (max-width: 510px) {
       height: 150px;
-      & img {
-        left: 0;
-      }
     }
   }
   & .head-title {
@@ -520,7 +559,7 @@ header {
         border: 8px solid #ffffff60;
         transition: all 0.3s ease;
         cursor: pointer;
-        z-index: 1;
+        z-index: 3;
 
         &:hover {
           border-radius: 50%;
@@ -664,6 +703,7 @@ footer {
       color: #515365aa;
       text-align: center;
       font-size: 12px;
+      padding: 0 15px;
     }
   }
 }

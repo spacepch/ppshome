@@ -23,6 +23,7 @@
       :key="index"
       :title="item"
       :content="githubPart.infoList[index]"
+      :test="value"
     >
     </pps-table-item>
     <!-- 加载中 -->
@@ -35,7 +36,7 @@
 import { gitFilter } from "@/private";
 import { getGithubInfoAPI } from "@/api";
 import { mapGetters } from "vuex";
-import myLoading from '@/components/myLoading.vue';
+import myLoading from "@/components/myLoading.vue";
 export default {
   components: { myLoading },
   name: "my-github",
@@ -52,6 +53,11 @@ export default {
           haveToast: true,
         },
       ],
+      value:{
+        type:"search",
+        title:"test title",
+        value:"test value"
+      }
     };
   },
   methods: {
@@ -59,7 +65,7 @@ export default {
       if (this.keyword === "") return this.$message.error("输入不能为空！");
       if (await gitFilter(this.keyword)) return false;
       try {
-        this.isloading = true
+        this.isloading = true;
         const { data: res } = await getGithubInfoAPI(this.keyword);
         if (res.code) return this.$message.error(res.message);
         console.log(res);
@@ -70,10 +76,10 @@ export default {
         };
         this.$store.commit("updateGithub", info);
       } catch {
-        this.isloading = false
+        this.isloading = false;
         this.$message.error("接口请求失败！请尝试VPN");
       }
-      this.isloading = false
+      this.isloading = false;
       //#region
       // this.ppsAjax({
       //   url: `https://api.github.com/users/${this.gitPart.content.keyword}`,

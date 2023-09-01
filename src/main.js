@@ -10,7 +10,7 @@ import router from './router'
 import 'vant/lib/index.css';
 
 Vue.config.productionTip = false
-// Vue.config.devtools = false;
+Vue.config.devtools = process.env.NODE_ENV === 'development';
 
 Vue.use(ppsUI)
 

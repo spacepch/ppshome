@@ -56,12 +56,22 @@ export default {
   },
   mounted() {
     this.isFirstEnterFn();
-    // console.log(this);
+    document.cookie = "test=1;max-age=-1";
+    this.$confirm(
+          `本站接口因部署在vercel，若请求失败，请尝试vpn！本站均由作者编写！
+        本站功能未写完，就此不打算继续了，后期可能会更新！`,
+          "公示",
+          {
+            confirmButtonText: "已知",
+            cancelButtonText: "关闭",
+            type: "warning",
+          }
+        )
   },
 };
 </script>
 
-<style lang="css" scoped>
+<style lang="css">
 @font-face {
   font-family: "uufont";
   src: url(@/assets/uui.3d6fecb8.woff2);
@@ -70,5 +80,10 @@ export default {
 @font-face {
   font-family: "bilifont";
   src: url(@/assets/HarmonyOS_Medium.a1.woff2);
+}
+@media screen and (max-width: 510px) {
+  .el-message-box{
+    width: 80% !important;
+  }
 }
 </style>

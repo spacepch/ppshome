@@ -43,6 +43,12 @@ export default {
         return '无';
       },
     },
+    test: {
+      type: Object,
+      default() {
+        return {};
+      },
+    },
   },
   data() {
     return {
@@ -70,32 +76,6 @@ export default {
   padding-right: 60px;
   color: blue;
 }
-/* .table-item {
-  height: 30px;
-  line-height: 30px;
-  border-bottom: 1px solid #cecece;
-} */
-/* .item-title {
-  display: inline-block;
-  width: 64px;
-  margin-left: 10px;
-  text-align-last: justify;
-  font-size: 15px;
-  color: #2e2e2e;
-  font-weight: bold;
-} */
-/* .item-content {
-  display: inline-block;
-  max-width: 211px;
-  margin-left: 10px;
-  background: #fff;
-  color: #4e4e4e;
-  font-size: 14px;
-  overflow-x: hidden;
-  vertical-align:bottom;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-} */
 .item-content span {
   display: block;
   width: 80px;
