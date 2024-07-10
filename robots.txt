@@ -1,3 +1,0 @@
-   User-agent: *
-   Allow: /
-   Sitemap: https://blog.painchornds.cn/sitemap.xml
